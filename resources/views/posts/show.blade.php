@@ -15,11 +15,10 @@
             </table>
             <table class="table table-bordered">
             <th style="background-color:#D3D3D3">Post Creator Info</th>   
-            @foreach ($users as $user)     
-                <tr><td><b>Name </b>:- {{$user->name}}
-                <br><b>Email </b>:- {{$user->email}}
-                <br><b>Created At </b>:- {{$user->created_at->toDateString()}}
-            @endforeach
+                <tr><td><b>Name </b>:- {{$post->user->name}}
+                <br><b>Email </b>:- {{$post->user->email}}
+                <br><b>Created At </b>:- {{$post->user->created_at}}
+   
                 </td></tr>
             </table>
         </div>

@@ -5,27 +5,52 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon ;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreBlogPost;
+use Illuminate\pagination\paginator;
 
 class postsController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
-        //$post = $posts->first();
+        $posts = Post::paginate(2);//3dd el posts in one page
+        
 
+      
         return view('posts.index',[
 
-            'posts' => $posts
+            'posts' => $posts,
+            
         ]);
 
     }
 
+    public function create()
+    {
+        $users = User::all();
+
+        return view('posts.create',[
+            'users' => $users
+        ]);
+    }
+
+    public function store(StoreBlogPost $request)
+    {
+        Post::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => $request->user_id
+        ]);
+        
+       return redirect(route('posts.index')); 
+    }
+
+
     public function show($id){  
     //    dd(route('posts.show'));
-    $users = User::all();
        return view('posts.show',[
-           'post'=>Post::findOrFail($id),
-           'users' => $users
+           'post'=>Post::findOrFail($id)
        ]); 
     }
 
@@ -37,29 +62,6 @@ class postsController extends Controller
             'users' => $users
         ]);
     }
-
-    // public function delete(){
-    //     return view('posts.delete');
-    // }
-
-
-    public function create()
-    {
-        $users = User::all();
-
-        return view('posts.create',[
-            'users' => $users
-        ]);
-    }
-
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        Post::create($request->all());
-        
-       return redirect(route('posts.index')); 
-    }
-
 
     public function update(Request $request,Post $post)
     {

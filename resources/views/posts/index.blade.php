@@ -9,7 +9,7 @@
       <a class="navbar-brand" href="#">Post</a>
     </div>
     <div class="nav navbar-nav navbar-right">
-        <li><a href="#">Home</a></li>
+        <li><a href="/home">Home</a></li>
         <li><a href="#">Posts</a></li>
     </div>
   </div>
@@ -37,13 +37,19 @@
                         <th>Posted By</th>
                         <th>Created at</th>
                         <th>Actions</th>
+                        <th>Slug</th>
                     </tr>
                 </thead>
                 <tbody>
+                @php
+                $count=0
+                @endphp
         @foreach ($posts as $post)
 
                     <tr>
-                        <td>{{ $post->id }}</td>
+
+                        @php $count++ @endphp
+                        <td>{{$count}}</td>
                         <td>{{ $post->title }}</td>
                         <td>{{$post->user->name}}</td>
                         <td>{{ $post->created_at->toDateString() }}</td>
@@ -56,26 +62,16 @@
                         {{csrf_field()}}
                         {{method_field('DELETE')}}
                         <button onclick="return confirm('are you sure')" type="submit" class="btn btn-danger" > Delete </button>
-                    </form>
-
-
-
+                        </form>
                         </td>
+
+                        <td>{{ $post->slug }}</td>
                     </tr>
                     
         @endforeach           
                 </tbody>
             </table>
-            <div class="clearfix">
-                
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item "><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
+            {{ $posts->links() }}
         </div>
     </div>
 
